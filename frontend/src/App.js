@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
-import axios from 'axios';  
+import axios from 'axios';
+import Calendar from "./components/Calendar";  
 
 class App extends Component {
   constructor(props) {
@@ -160,6 +161,9 @@ class App extends Component {
               </ul>
             </div>
           </div>
+        </div>
+        <div className="App">
+          <Calendar />
         </div>
         {this.state.modal ? (
           <Modal
