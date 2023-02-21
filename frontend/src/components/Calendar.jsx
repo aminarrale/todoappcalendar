@@ -3,11 +3,36 @@ import Fullcalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { useState } from "react";
+import { v4 as uuid } from "uuid";
+import { calendarFormat } from 'moment/moment';
 
-function Calendar() {
+export const MyCalendar = () => {
+  const [events, setEvents] = useState([]);
+
+  const handleSelect = (info) => {
+    const { start, end, allday } = info;
+    const eventNamePrompt = prompt("Enter, event name");
+    if (eventNamePrompt) {
+      setEvents([
+        ...events,
+        {
+          start,
+          end,
+          title: eventNamePrompt,
+          id: uuid(),
+        },
+      ]);
+    }
+  };
+  
   return (
     <div>
       <Fullcalendar
+        editable
+        selectable
+        select={handleSelect}
+        events={events}
         plugins={[dayGridPlugin,timeGridPlugin,interactionPlugin]}
         initialView={"dayGridMonth"}
         headerToolbar={{
@@ -16,23 +41,14 @@ function Calendar() {
           end: 'dayGridMonth,timeGridWeek,timeGridDay', // will normally be on the right. if RTL, will be on the left
         }}
         eventClick={
-          function(arg){
-            alert(arg.event.title)
-            alert(arg.event.start) 
-          }
-        }
-        events={[
-          { title: 'event 1', date: '2023-01-25', backgroundColor: "red"},
-          { title: 'event 2', date: '2023-01-26', backgroundColor: "green"},
-          { title: 'event 2', date: '2023-01-27', backgroundColor: "yellow"},
-          { title: 'event 2', date: '2023-01-28', backgroundColor: "#000000"},
-          { title: 'event 2', date: '2023-01-29', backgroundColor: "blue"},
-          { title: 'event 2', date: '2023-01-30', backgroundColor: "pink"},
-          { title: 'event 2', date: '2023-01-31', backgroundColor: "purple"},
-        ]}
+          function(clickInfo){
+          if (window.confirm(`Do you want to delete the event '${clickInfo.event.title}'`) == true) {
+            clickInfo.event.remove()
+            };
+          
+        }}
+    
       />
     </div>
   );
-}
-
-export default Calendar;
+};

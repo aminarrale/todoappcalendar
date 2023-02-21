@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from 'axios';
-import Calendar from "./components/Calendar";  
+import { MyCalendar } from "./components/Calendar";  
 
 class App extends Component {
   constructor(props) {
@@ -46,7 +46,7 @@ class App extends Component {
           onClick={() => this.displayCompleted(true)}
           className={this.state.viewCompleted ? "active" : ""}
         >
-          completed
+          Completed
             </span>
         <span
           onClick={() => this.displayCompleted(false)}
@@ -163,7 +163,7 @@ class App extends Component {
           </div>
         </div>
         <div className="App">
-          <Calendar />
+          <MyCalendar />
         </div>
         {this.state.modal ? (
           <Modal
